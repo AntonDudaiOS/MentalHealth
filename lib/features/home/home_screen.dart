@@ -5,12 +5,22 @@ import 'package:my_mental_health_app/widgets/custom_button.dart';
 import 'package:my_mental_health_app/bloc/app/app_bloc.dart';
 import 'package:my_mental_health_app/bloc/app/app_state.dart';
 import 'package:my_mental_health_app/core/models/user_model.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      analytics.logScreenView(
+       screenClass: 'HomeScreen',
+       screenName: 'HomeScreen',
+      );
+    });
+
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, state) {
         final UserModel? user = state.user;

@@ -7,11 +7,21 @@ import 'package:my_mental_health_app/core/router/routes.dart';
 import 'package:my_mental_health_app/core/services/auth_service.dart';
 import 'package:my_mental_health_app/core/services/onboarding_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:my_mental_health_app/core/services/push_notification_service.dart';
+
+
+//Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//  await Firebase.initializeApp();
+//}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   await Firebase.initializeApp();
+  //await PushNotificationService.initialize();
 
   final authService = AuthService();
   final onboardingService = OnboardingService();
