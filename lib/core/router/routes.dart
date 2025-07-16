@@ -8,6 +8,9 @@ import 'package:my_mental_health_app/core/router/go_router_refresh_stream.dart';
 import 'package:my_mental_health_app/bloc/app/app_state.dart';
 import 'package:my_mental_health_app/features/settings/screens/settings_screen.dart';
 import 'package:my_mental_health_app/widgets/main_scaffold.dart';
+import 'package:my_mental_health_app/features/tests/tests_screen.dart';
+import 'package:my_mental_health_app/features/techniques/techniques_screen.dart';
+import 'package:my_mental_health_app/features/relaxation/relaxation_screen.dart';
 
 GoRouter createRouter(AppBloc appBloc) {
   return GoRouter(
@@ -36,7 +39,7 @@ GoRouter createRouter(AppBloc appBloc) {
       return null;
     },
     routes: [
-      // Поза таббаром
+      // Routes out of TaBar
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
@@ -50,10 +53,10 @@ GoRouter createRouter(AppBloc appBloc) {
         builder: (context, state) => const LoginForm(),
       ),
 
-      // Тепер вкладки під таббаром
+      // Screens on the TabBar
       ShellRoute(
         builder: (context, state, child) {
-          return MainScaffold(child: child); // З таббаром
+          return MainScaffold(child: child);
         },
         routes: [
           GoRoute(
@@ -61,16 +64,16 @@ GoRouter createRouter(AppBloc appBloc) {
             builder: (context, state) => const HomeScreen(),
           ),
           GoRoute(
-            path: '/diary',
-            builder: (context, state) => const SettingsScreen(), // заміниш на DiaryScreen
+            path: '/tests',
+            builder: (context, state) => const TestsScreen(), 
           ),
           GoRoute(
             path: '/techniques',
-            builder: (context, state) => const SettingsScreen(), // заміниш на TechniquesScreen
+            builder: (context, state) => const TechniquesScreen(), 
           ),
           GoRoute(
-            path: '/settings',
-            builder: (context, state) => const SettingsScreen(),
+            path: '/relaxation',
+            builder: (context, state) => const RelaxationScreen(),
           ),
         ],
       ),

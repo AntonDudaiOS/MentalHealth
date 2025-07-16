@@ -8,16 +8,16 @@ class MainScaffold extends StatelessWidget {
 
   static const tabs = [
     '/home',
-    '/diary',
+    '/tests',
     '/techniques',
-    '/settings',
+    '/relaxation',
   ];
 
   static const tabTitles = [
-    'Головна',
-    'Щоденник',
-    'Техніки',
-    'Налаштування',
+    'Home',
+    'Tests',
+    'Techniques',
+    'Relaxation',
   ];
 
   int _calculateSelectedIndex(BuildContext context) {
@@ -68,22 +68,22 @@ class MainScaffold extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
-            label: 'Головна',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book_outlined),
             activeIcon: Icon(Icons.book),
-            label: 'Щоденник',
+            label: 'Tests',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.self_improvement_outlined),
             activeIcon: Icon(Icons.self_improvement),
-            label: 'Техніки',
+            label: 'Techniques',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined),
             activeIcon: Icon(Icons.settings),
-            label: 'Налаштування',
+            label: 'Relaxation',
           ),
         ],
       ),
