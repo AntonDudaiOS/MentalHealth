@@ -7,6 +7,7 @@ import 'package:my_mental_health_app/bloc/app/app_bloc.dart';
 import 'package:my_mental_health_app/core/router/go_router_refresh_stream.dart';
 import 'package:my_mental_health_app/bloc/app/app_state.dart';
 import 'package:my_mental_health_app/features/settings/screens/settings_screen.dart';
+import 'package:my_mental_health_app/widgets/main_scaffold.dart';
 
 GoRouter createRouter(AppBloc appBloc) {
   return GoRouter(
@@ -19,29 +20,23 @@ GoRouter createRouter(AppBloc appBloc) {
       if (status == AppStatus.showOnboarding && location != '/onboarding') {
         return '/onboarding';
       }
-
       if (status == AppStatus.showRegistration && location != '/registry') {
         return '/registry';
       }
-
       if (status == AppStatus.showHome &&
           (location == '/onboarding' || location == '/registry')) {
         return '/home';
       }
-
       if (status == AppStatus.showLogin && location != '/login') {
         return '/login';
       }
-
       if (status == AppStatus.switchToRegistration && location != '/registry') {
         return '/registry';
-      }
-      if (status == AppStatus.showSettings && location != '/settings') {
-        return '/settings';
       }
       return null;
     },
     routes: [
+      // Поза таббаром
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
@@ -54,14 +49,31 @@ GoRouter createRouter(AppBloc appBloc) {
         path: '/login',
         builder: (context, state) => const LoginForm(),
       ),
-      GoRoute(
-        path: '/home',
-        builder: (context, state) => const HomeScreen(),
+
+      // Тепер вкладки під таббаром
+      ShellRoute(
+        builder: (context, state, child) {
+          return MainScaffold(child: child); // З таббаром
+        },
+        routes: [
+          GoRoute(
+            path: '/home',
+            builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: '/diary',
+            builder: (context, state) => const SettingsScreen(), // заміниш на DiaryScreen
+          ),
+          GoRoute(
+            path: '/techniques',
+            builder: (context, state) => const SettingsScreen(), // заміниш на TechniquesScreen
+          ),
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
+        ],
       ),
-      GoRoute(
-        path: '/settings',
-        builder: (context, state) => SettingsScreen(),
-      )
     ],
   );
 }

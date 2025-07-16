@@ -16,8 +16,8 @@ class HomeScreen extends StatelessWidget {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       analytics.logScreenView(
-       screenClass: 'HomeScreen',
-       screenName: 'HomeScreen',
+        screenClass: 'HomeScreen',
+        screenName: 'HomeScreen',
       );
     });
 
@@ -25,52 +25,40 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         final UserModel? user = state.user;
 
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('Hello, ${user?.displayName ?? "User"}'),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.settings),
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Hello, ${user?.displayName ?? "User"}',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                user?.subscriptionType == 'premium'
+                    ? 'You are a Premium user'
+                    : 'You are using Free version',
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 20),
+              CustomButton(
+                text: 'Settings',
+                border: Border.all(color: Colors.purple, width: 2),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(40),
+                    spreadRadius: 2.5,
+                    blurRadius: 4,
+                    offset: const Offset(0, 0),
+                  ),
+                ],
                 onPressed: () => context.push('/settings'),
               ),
             ],
-          ),
-          body: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  user?.subscriptionType == 'premium'
-                      ? 'You are a Premium user'
-                      : 'You are using Free version',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomButton(
-                      text: 'Settings',
-                      border: Border.all(color: Colors.purple, width: 2),
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.4),
-                          spreadRadius: 2.5,
-                          blurRadius: 4,
-                          offset: const Offset(0, 0),
-                        ),
-                      ],
-                      onPressed: () {
-                        context.push('/settings');
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
           ),
         );
       },
