@@ -52,6 +52,10 @@ GoRouter createRouter(AppBloc appBloc) {
         path: '/login',
         builder: (context, state) => const LoginForm(),
       ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
+      ),
 
       // Screens on the TabBar
       ShellRoute(

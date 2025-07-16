@@ -49,7 +49,7 @@ class MainScaffold extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              context.go('/settings');
+              context.push('/settings');
             },
           ),
         ],
@@ -71,7 +71,7 @@ class MainScaffold extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book_outlined),
+            icon: Icon(Icons.fact_check_outlined),
             activeIcon: Icon(Icons.book),
             label: 'Tests',
           ),
@@ -81,7 +81,7 @@ class MainScaffold extends StatelessWidget {
             label: 'Techniques',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
+            icon: Icon(Icons.spa_outlined),
             activeIcon: Icon(Icons.settings),
             label: 'Relaxation',
           ),
