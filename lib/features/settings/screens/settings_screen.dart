@@ -11,13 +11,19 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(
-      builder: (context, state) {
-        final UserModel? user = state.user;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop()
+        ),
+      ),
+      body: BlocBuilder<AppBloc, AppState>(
+        builder: (context, state) {
+          final UserModel? user = state.user;
 
-        return Scaffold(
-          appBar: AppBar(title: const Text('Settings')),
-          body: ListView(
+          return ListView(
             padding: const EdgeInsets.symmetric(vertical: 12),
             children: [
               if (user != null)
@@ -58,9 +64,9 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -89,8 +95,7 @@ class SettingsScreen extends StatelessWidget {
         child: ListTile(
           leading: Icon(icon, color: textColor),
           title: Text(title, style: TextStyle(color: textColor)),
-          trailing:
-              const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+          trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
           onTap: onTap,
         ),
       ),
