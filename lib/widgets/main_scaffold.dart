@@ -2,16 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class MainScaffold extends StatelessWidget {
-  final Widget child;
+  final StatefulNavigationShell navigationShell;
 
-  const MainScaffold({super.key, required this.child});
-
-  static const tabs = [
-    '/home',
-    '/tests',
-    '/techniques',
-    '/relaxation',
-  ];
+  const MainScaffold({super.key, required this.navigationShell});
 
   static const tabTitles = [
     'Home',
@@ -20,21 +13,17 @@ class MainScaffold extends StatelessWidget {
     'Relaxation',
   ];
 
-  int _calculateSelectedIndex(BuildContext context) {
-    final location = GoRouterState.of(context).uri.toString();
-    return tabs.indexWhere((path) => location.startsWith(path));
-  }
-
-  void _onItemTapped(BuildContext context, int index) {
-    if (index >= 0 && index < tabs.length) {
-      context.go(tabs[index]);
-    }
+  void _onItemTapped(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final selectedIndex = _calculateSelectedIndex(context);
-    final title = selectedIndex >= 0 && selectedIndex < tabTitles.length
+    final selectedIndex = navigationShell.currentIndex;
+    final title = (selectedIndex >= 0 && selectedIndex < tabTitles.length)
         ? tabTitles[selectedIndex]
         : '';
 
@@ -54,10 +43,10 @@ class MainScaffold extends StatelessWidget {
           ),
         ],
       ),
-      body: child,
+      body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex >= 0 ? selectedIndex : 0,
-        onTap: (index) => _onItemTapped(context, index),
+        currentIndex: selectedIndex,
+        onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         backgroundColor: const Color(0xFFF5F5F5),
         selectedItemColor: Colors.blueAccent,

@@ -16,9 +16,9 @@ GoRouter createRouter(AppBloc appBloc) {
   return GoRouter(
     initialLocation: '/home',
     refreshListenable: GoRouterRefreshStream(appBloc.stream),
-    redirect: (context, stateGo) {
+    redirect: (context, state) {
       final status = appBloc.state.status;
-      final location = stateGo.uri.toString();
+      final location = state.uri.toString();
 
       if (status == AppStatus.showOnboarding && location != '/onboarding') {
         return '/onboarding';
@@ -39,7 +39,6 @@ GoRouter createRouter(AppBloc appBloc) {
       return null;
     },
     routes: [
-      // Routes out of TaBar
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
@@ -57,27 +56,54 @@ GoRouter createRouter(AppBloc appBloc) {
         builder: (context, state) => const SettingsScreen(),
       ),
 
-      // Screens on the TabBar
-      ShellRoute(
-        builder: (context, state, child) {
-          return MainScaffold(child: child);
+      /// --- Tabs StatefulShellRoute ---
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return MainScaffold(navigationShell: navigationShell);
         },
-        routes: [
-          GoRoute(
-            path: '/home',
-            builder: (context, state) => const HomeScreen(),
+        branches: [
+          /// Branch 0: Home
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/home',
+                name: 'home',
+                builder: (context, state) => const HomeScreen(),
+              ),
+            ],
           ),
-          GoRoute(
-            path: '/tests',
-            builder: (context, state) => const TestsScreen(), 
+
+          /// Branch 1: Tests
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/tests',
+                name: 'tests',
+                builder: (context, state) => const TestsScreen(),
+              ),
+            ],
           ),
-          GoRoute(
-            path: '/techniques',
-            builder: (context, state) => const TechniquesScreen(), 
+
+          /// Branch 2: Techniques
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/techniques',
+                name: 'techniques',
+                builder: (context, state) => const TechniquesScreen(),
+              ),
+            ],
           ),
-          GoRoute(
-            path: '/relaxation',
-            builder: (context, state) => const RelaxationScreen(),
+
+          /// Branch 3: Relaxation
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/relaxation',
+                name: 'relaxation',
+                builder: (context, state) => const RelaxationScreen(),
+              ),
+            ],
           ),
         ],
       ),
