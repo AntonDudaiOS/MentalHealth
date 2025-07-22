@@ -1,30 +1,29 @@
 import 'package:equatable/equatable.dart';
 import 'package:my_mental_health_app/core/models/test_model.dart';
 
-abstract class TestState extends Equatable {
+abstract class TestListState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class TestInitial extends TestState {}
+class TestListInitial extends TestListState {}
 
-class TestLoading extends TestState {}
+class TestListLoading extends TestListState {}
 
-class TestLoaded extends TestState {
+class TestListLoaded extends TestListState {
   final List<QuantitativeTest> tests;
 
-  TestLoaded(this.tests);
+  TestListLoaded(this.tests);
 
   @override
   List<Object?> get props => [tests];
 }
 
-class TestError extends TestState {
+class TestListError extends TestListState {
   final String message;
 
-  TestError(this.message);
+  TestListError(this.message);
 
   @override
   List<Object?> get props => [message];
 }
-

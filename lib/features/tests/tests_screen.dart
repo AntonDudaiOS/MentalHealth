@@ -1,56 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:my_mental_health_app/core/models/test_model.dart';
-import 'package:my_mental_health_app/core/services/firebase_storage_service.dart';
+import 'package:go_router/go_router.dart';
 
-class TestsScreen extends StatefulWidget {
+class TestsScreen extends StatelessWidget {
   const TestsScreen({super.key});
 
   @override
-  State<TestsScreen> createState() => _TestsScreenState();
-}
-
-class _TestsScreenState extends State<TestsScreen> {
-  late Future<List<QuantitativeTest>> _futureTests;
-
-  @override
-  void initState() {
-    super.initState();
-    _futureTests = FirebaseTestService().loadTests('full_all_tests.json');
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<QuantitativeTest>>(
-      future: _futureTests,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Помилка: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('Немає доступних тестів'));
-        }
-
-        final tests = snapshot.data!;
-
-        return ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: tests.length,
-          itemBuilder: (context, index) {
-            final test = tests[index];
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              child: ListTile(
-                title: Text(test.title),
-                subtitle: Text(test.description),
-                onTap: () {
-                  // TODO: перехід до екрану проходження тесту
-                },
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 24),
+            Center(
+              child: Text(
+                'Навіщо проходити тести?',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
-            );
-          },
-        );
-      },
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              ' Психологічні тести допомагають краще зрозуміти свій емоційний стан,'
+              ' виявити тривожність, депресію або ПТСР на ранніх стадіях.',
+              textAlign: TextAlign.start,
+            ),
+            const SizedBox(height: 60),
+            const Text(
+              ' Тестування займає 3–5 хвилин і базується на науково обґрунтованих методиках.',
+              textAlign: TextAlign.start,
+            ),
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  context.push('/test_list');
+                },
+                child: const Text('Переглянути тести'),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
     );
   }
 }
