@@ -11,6 +11,7 @@ import 'package:my_mental_health_app/widgets/main_scaffold.dart';
 import 'package:my_mental_health_app/features/tests/tests_screen.dart';
 import 'package:my_mental_health_app/features/techniques/techniques_screen.dart';
 import 'package:my_mental_health_app/features/relaxation/relaxation_screen.dart';
+import 'package:my_mental_health_app/features/tests/test_list/test_list_screen.dart';
 
 GoRouter createRouter(AppBloc appBloc) {
   return GoRouter(
@@ -54,6 +55,10 @@ GoRouter createRouter(AppBloc appBloc) {
       GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/test_list',
+        builder: (context, state) => const TestsListScreen(),
       ),
 
       /// --- Tabs StatefulShellRoute ---
