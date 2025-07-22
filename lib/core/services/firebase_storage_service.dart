@@ -1,24 +1,23 @@
 import 'dart:convert';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../models/test_model.dart';
 
-class FirebaseStorageService {
+class FirebaseTestService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future<Map<String, dynamic>> loadJsonFile(String filePath) async {
-    try {
-      final ref = _storage.ref().child(filePath);
-      final data = await ref.getData();
+  Future<List<QuantitativeTest>> loadTests(String filePath) async {
+    final ref = _storage.ref().child(filePath);
+    final data = await ref.getData();
 
-      if (data == null) {
-        throw Exception('Empty data returned from Firebase Storage');
-      }
-
-      final jsonString = utf8.decode(data);
-      final jsonData = jsonDecode(jsonString);
-
-      return jsonData;
-    } catch (e) {
-      throw Exception('Error loading JSON file: $e');
+    if (data == null) {
+      throw Exception('Файл порожній або не знайдено');
     }
+
+    final jsonString = utf8.decode(data);
+    final List<dynamic> jsonList = jsonDecode(jsonString);
+
+    return jsonList
+        .map((e) => QuantitativeTest.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }
