@@ -6,6 +6,7 @@ part 'test_model.g.dart';
 class QuantitativeTest {
   final String id;
   final String title;
+  final String category;
   final String description;
   final List<Question> questions;
   final List<AnswerScaleItem> answerScale;
@@ -14,6 +15,7 @@ class QuantitativeTest {
   QuantitativeTest({
     required this.id,
     required this.title,
+    required this.category,
     required this.description,
     required this.questions,
     required this.answerScale,

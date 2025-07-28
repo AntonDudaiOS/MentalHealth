@@ -2,9 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_mental_health_app/core/models/test_model.dart';
 import 'test_detail_event.dart';
 import 'test_detail_state.dart';
+import 'package:my_mental_health_app/core/services/test_results_service.dart';
 
 class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
-  TestDetailBloc() : super(TestDetailInitial()) {
+  final TestResultService testResultService;
+
+  TestDetailBloc({required this.testResultService}) : super(TestDetailInitial()) {
     on<StartTest>(_onStart);
     on<AnswerSelected>(_onAnswerSelected);
     on<SubmitTest>(_onSubmit);
@@ -24,7 +27,7 @@ class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     }
   }
 
-  void _onSubmit(SubmitTest event, Emitter<TestDetailState> emit) {
+  Future<void> _onSubmit(SubmitTest event, Emitter<TestDetailState> emit) async {
     final currentState = state;
     if (currentState is TestDetailInProgress) {
       int total = 0;
@@ -47,6 +50,12 @@ class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
           maxScore: 0,
           description: 'Результат не визначено.',
         ),
+      );
+
+      await testResultService.saveResult(
+        test: test,
+        score: total,
+        result: result,
       );
 
       emit(TestDetailCompleted(
