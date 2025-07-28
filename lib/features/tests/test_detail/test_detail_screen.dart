@@ -5,6 +5,9 @@ import 'package:my_mental_health_app/core/models/test_model.dart';
 import 'package:my_mental_health_app/features/tests/test_detail/bloc/test_detail_bloc.dart';
 import 'package:my_mental_health_app/features/tests/test_detail/bloc/test_detail_event.dart';
 import 'package:my_mental_health_app/features/tests/test_detail/bloc/test_detail_state.dart';
+import 'package:my_mental_health_app/core/services/test_results_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TestDetailScreen extends StatelessWidget {
   final QuantitativeTest test;
@@ -14,7 +17,12 @@ class TestDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TestDetailBloc()..add(StartTest(test)),
+      create: (_) => TestDetailBloc(
+        testResultService: TestResultService(
+          firestore: FirebaseFirestore.instance,
+          auth: FirebaseAuth.instance,
+        ),
+      )..add(StartTest(test)),
       child: Scaffold(
         appBar: AppBar(title: Text(test.title)),
         body: BlocBuilder<TestDetailBloc, TestDetailState>(
@@ -50,7 +58,7 @@ class TestDetailScreen extends StatelessWidget {
                                     );
                                   },
                                 );
-                              }).toList(),
+                              }),
                               const Divider(height: 32),
                             ],
                           );
@@ -59,52 +67,57 @@ class TestDetailScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24),
-                      child:  SizedBox(
+                      child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: state.answers.length == state.test.questions.length
-                           ? () => context.read<TestDetailBloc>().add(SubmitTest())
-                            : null,
-                          child: const Text('Завершити тест')),
-                      )
-                    ),
+                              ? () => context.read<TestDetailBloc>().add(SubmitTest())
+                              : null,
+                          child: const Text('Завершити тест'),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               );
             } else if (state is TestDetailCompleted) {
               return Padding(
-                  padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
+                child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                       Text('Ваш результат: ${state.totalScore}',
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
+                      Text(
+                        'Ваш результат: ${state.totalScore}',
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
                       const SizedBox(height: 16),
-                        Text(state.result.description,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                          textAlign: TextAlign.center,
-                        ),
+                      Text(
+                        state.result.description,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        textAlign: TextAlign.center,
+                      ),
                       const SizedBox(height: 32),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                          onPressed: () => context.pop('/tests'),
-                          child: const Text('Ще тести'),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () => context.pop('/tests'),
+                              child: const Text('Ще тести'),
                             ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: OutlinedButton(
-                          onPressed: () => context.go('/home'),
-                          child: const Text('На головну'),
                           ),
-                        ),
-                      ],
-                     ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () => context.go('/home'),
+                              child: const Text('На головну'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
-                 ),
+                  ),
+                ),
               );
             }
 

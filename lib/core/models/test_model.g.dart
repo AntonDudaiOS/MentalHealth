@@ -10,6 +10,7 @@ QuantitativeTest _$QuantitativeTestFromJson(Map<String, dynamic> json) =>
     QuantitativeTest(
       id: json['id'] as String,
       title: json['title'] as String,
+      category: json['category'] as String,
       description: json['description'] as String,
       questions: (json['questions'] as List<dynamic>)
           .map((e) => Question.fromJson(e as Map<String, dynamic>))
@@ -26,6 +27,7 @@ Map<String, dynamic> _$QuantitativeTestToJson(QuantitativeTest instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'category': instance.category,
       'description': instance.description,
       'questions': instance.questions,
       'answerScale': instance.answerScale,
