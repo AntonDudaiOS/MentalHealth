@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_mental_health_app/core/services/firebase_storage_service.dart';
 import 'package:my_mental_health_app/features/tests/test_list/bloc/test_list_bloc.dart';
 import 'package:my_mental_health_app/features/tests/test_list/bloc/test_list_event.dart';
@@ -41,7 +42,7 @@ class TestsListView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: GestureDetector(
                     onTap: () {
-                      // TODO: transition to the test
+                      context.pushNamed('test-detail', extra: test,);
                     },
                     child: Container(
                       padding: const EdgeInsets.all(16),
