@@ -49,6 +49,8 @@ dependencies:
   firebase_storage: ^12.4.7
   cloud_firestore: ^5.6.9
   json_annotation: ^4.9.0
+  fl_chart: ^0.66.2
+  intl: ^0.18.1
 
 dev_dependencies:
   build_runner: ^2.4.8

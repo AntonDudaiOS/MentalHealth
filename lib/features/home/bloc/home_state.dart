@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:my_mental_health_app/core/models/test_result_model.dart';
 
 class HomeState extends Equatable {
   final bool isLoading;
-  final List<Map<String, dynamic>> testResults;
+  final List<TestResultModel> testResults;
   final String? errorMessage;
 
   const HomeState({
@@ -13,7 +14,7 @@ class HomeState extends Equatable {
 
   HomeState copyWith({
     bool? isLoading,
-    List<Map<String, dynamic>>? testResults,
+    List<TestResultModel>? testResults,
     String? errorMessage,
   }) {
     return HomeState(
