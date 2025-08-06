@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_mental_health_app/bloc/app/app_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:my_mental_health_app/core/router/routes.dart';
 import 'package:my_mental_health_app/core/services/auth_service.dart';
 import 'package:my_mental_health_app/core/services/onboarding_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:my_mental_health_app/core/services/test_results_service.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:my_mental_health_app/core/services/push_notification_service.dart';
 
@@ -27,12 +30,22 @@ void main() async {
   final onboardingService = OnboardingService();
 
   runApp(
-    BlocProvider(
-      create: (_) => AppBloc(
-        authService: authService,
-        onboardingService: onboardingService,
-      )..add(AppStarted()),
-      child: const MyApp(),
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<TestResultService>(
+          create: (_) => TestResultService(
+            firestore: FirebaseFirestore.instance,
+            auth: FirebaseAuth.instance
+            ),
+          ),
+      ],
+      child: BlocProvider(
+        create: (_) => AppBloc(
+          authService: authService,
+          onboardingService: onboardingService,
+        )..add(AppStarted()),
+        child: const MyApp(),
+      ),
     ),
   );
 }
