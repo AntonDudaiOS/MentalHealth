@@ -31,6 +31,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<LoginStarted>(_onLoginStarted);
     on<RegistryStarted>(_onRegistryStarted);
     on<AppLogoutRequested>(_onLogoutRequested);
+    on<TabChanged>(_onTabChanged);
+  }
+
+  Future<void> _onTabChanged(TabChanged event, Emitter<AppState> emit) async {
+    emit(state.copyWith(selectedTab: event.tab));
+    return;
   }
 
   Future<void> _onStarted(AppStarted event, Emitter<AppState> emit) async {
