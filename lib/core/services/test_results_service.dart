@@ -53,4 +53,24 @@ class TestResultService {
       await testResultsRef.add(data);
     }
   }
+
+  Future<List<Map<String, dynamic>>> getLatestResults() async {
+    final user = auth.currentUser;
+      if (user == null) {
+        throw Exception('Користувач не авторизований');
+    }
+
+    final userId = user.uid;
+    final testResultsRef = firestore
+        .collection('users')
+        .doc(userId)
+        .collection('test_results');
+
+    final snapshot = await testResultsRef
+        .orderBy('timestamp', descending: true)
+        .limit(10)
+        .get();
+
+    return snapshot.docs.map((doc) => doc.data()).toList();
+  }
 }
