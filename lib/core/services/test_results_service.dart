@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_mental_health_app/core/models/test_model.dart';
+import 'package:my_mental_health_app/core/models/test_result_model.dart';
 
 class TestResultService {
   final FirebaseFirestore firestore;
@@ -54,7 +55,7 @@ class TestResultService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getLatestResults() async {
+  Future<List<TestResultModel>> getLatestResults() async {
     final user = auth.currentUser;
       if (user == null) {
         throw Exception('Користувач не авторизований');
@@ -71,6 +72,8 @@ class TestResultService {
         .limit(10)
         .get();
 
-    return snapshot.docs.map((doc) => doc.data()).toList();
+    return snapshot.docs
+    .map((doc) => TestResultModel.fromFirestore(doc))
+    .toList();
   }
 }
