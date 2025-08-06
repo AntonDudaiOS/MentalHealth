@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_mental_health_app/core/models/app_tab.dart';
 
 class MainScaffold extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
+  final void Function(AppTab tab) onTabChanged;
 
-  const MainScaffold({super.key, required this.navigationShell});
+  const MainScaffold({super.key, required this.navigationShell, required this.onTabChanged});
 
   static const tabTitles = [
     'Home',
@@ -14,6 +16,9 @@ class MainScaffold extends StatelessWidget {
   ];
 
   void _onItemTapped(int index) {
+    final tab = AppTab.values[index];
+    onTabChanged(tab);
+    
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,

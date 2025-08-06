@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_mental_health_app/bloc/app/app_bloc.dart';
+import 'package:my_mental_health_app/bloc/app/app_event.dart';
 import 'package:my_mental_health_app/core/models/test_model.dart';
 import 'package:my_mental_health_app/features/tests/test_detail/bloc/test_detail_bloc.dart';
 import 'package:my_mental_health_app/features/tests/test_detail/bloc/test_detail_event.dart';
@@ -8,6 +10,7 @@ import 'package:my_mental_health_app/features/tests/test_detail/bloc/test_detail
 import 'package:my_mental_health_app/core/services/test_results_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:my_mental_health_app/core/models/app_tab.dart';
 
 class TestDetailScreen extends StatelessWidget {
   final QuantitativeTest test;
@@ -109,7 +112,10 @@ class TestDetailScreen extends StatelessWidget {
                           const SizedBox(width: 16),
                           Expanded(
                             child: OutlinedButton(
-                              onPressed: () => context.go('/home'),
+                              onPressed: () {
+                                context.read<AppBloc>().add(TabChanged(AppTab.home));
+                                context.go('/home');
+                              }, 
                               child: const Text('На головну'),
                             ),
                           ),

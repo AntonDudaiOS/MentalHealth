@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_mental_health_app/bloc/app/app_event.dart';
 import 'package:my_mental_health_app/features/home/home_screen.dart';
 import 'package:my_mental_health_app/features/onboarding/onboarding_screen.dart';
 import 'package:my_mental_health_app/features/registration/signIn/login_screen.dart';
@@ -74,7 +76,12 @@ GoRouter createRouter(AppBloc appBloc) {
       /// --- Tabs StatefulShellRoute ---
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return MainScaffold(navigationShell: navigationShell);
+          return MainScaffold(
+            navigationShell: navigationShell,
+            onTabChanged: (tab) {
+              context.read<AppBloc>().add(TabChanged(tab));
+            }
+          );
         },
         branches: [
           /// Branch 0: Home

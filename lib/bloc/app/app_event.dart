@@ -1,3 +1,4 @@
+import 'package:my_mental_health_app/core/models/app_tab.dart';
 import 'package:my_mental_health_app/core/models/user_model.dart';
 
 abstract class AppEvent {}
@@ -23,3 +24,10 @@ class LoginCompleted extends AppEvent {
 class RegistryStarted extends AppEvent {}
 
 class AppLogoutRequested extends AppEvent {}
+
+
+class TabChanged extends AppEvent {
+  final AppTab tab;
+
+  TabChanged(this.tab);
+}
